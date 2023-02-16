@@ -117,17 +117,17 @@ class PostFormTests(TestCase):
             'text': 'Текст комментария',
         }
         self.client.post(
-            reverse('posts:add_comment', 
-                kwargs={'post_id': self.post.pk}),
-                data=form_data,
-                follow=True,
+            reverse('posts:add_comment', kwargs={
+                'post_id': self.post.pk}),
+            data=form_data,
+            follow=True,
         )
         self.assertEqual(Comment.objects.count(), comments_count)
         self.authorized_client.post(
-            reverse('posts:add_comment', 
-                kwargs={'post_id': self.post.pk}),
-                data=form_data,
-                follow=True,
+            reverse('posts:add_comment', kwargs={
+                'post_id': self.post.pk}),
+            data=form_data,
+            follow=True,
         )
         self.assertEqual(Comment.objects.count(), comments_count + 1)
         self.assertTrue(
