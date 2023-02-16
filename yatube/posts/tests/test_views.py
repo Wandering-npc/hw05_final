@@ -22,12 +22,12 @@ class PostPagesTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.small_gif = (
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         cls.uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -61,8 +61,7 @@ class PostPagesTests(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
         cache.clear()
-        
-
+ 
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         templates_url_names = {
@@ -195,7 +194,8 @@ class PostPagesTests(TestCase):
         page_obj_cache = response_cache.content
         self.assertEqual(page_obj, page_obj_cache)
         cache.clear()
-        response_after_clear = self.authorized_client.get(reverse('posts:index'))
+        response_after_clear = self.authorized_client.get(
+            reverse('posts:index'))
         page_obj_after_clear = response_after_clear.content
         self.assertNotEqual(page_obj, page_obj_after_clear)
 
@@ -215,9 +215,10 @@ class PostPagesTests(TestCase):
                 user=self.user,
                 author=author,
             ).exists())
+
     def test_f(self):
         author_1 = User.objects.create_user(username='Author')
-        authors = (author_1, self.follow.author )
+        authors = (author_1, self.follow.author)
         posts = []
         for author in authors:
             post = Post.objects.create(
@@ -229,20 +230,3 @@ class PostPagesTests(TestCase):
         context = response.context['page_obj']
         self.assertNotIn(posts[0], context)
         self.assertIn(posts[1], context)
-
-
-        
-
-        
-        
-        
-
-
-
-'''
-Создаешь пост
-Сохраняешь ответ в переменную
-Потом пост удалчешь
-Снова сохраняешь рещльутат со страницу в переменную
-И у тебя две страницы ровны должны быьь
-'''

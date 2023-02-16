@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import TestCase
 
 
 class ViewTestClass(TestCase):
@@ -6,4 +6,3 @@ class ViewTestClass(TestCase):
         response = self.client.get('/nonexist-page/')
         self.assertEqual(response.status_code, 404)
         self.assertTemplateUsed(response, 'core/404.html')
-        

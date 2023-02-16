@@ -107,9 +107,10 @@ def add_comment(request, post_id):
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
 
+
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
+    """Посты избранных авторов."""
     user = request.user
     follow_objects = user.follower.all()
     authors = [user.author.id for user in follow_objects]
@@ -119,16 +120,11 @@ def follow_index(request):
         'page_obj': page_obj,
     }
     return render(request, 'posts/follow.html', context)
-    '''
-    тебе просто нужно отфильтровать посты по авторам, 
-    на которых пользователь подписан
-    то есть в фильтре тебе нужно обратиться к 
-    автору, посмотреть кто на него подписан и сравнить с request.user
-    '''
+
 
 @login_required
 def profile_follow(request, username):
-    # Подписаться на автора
+    """Подписка."""
     author = get_object_or_404(User, username=username)
     if author == request.user:
         return redirect(
@@ -146,7 +142,7 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
-    # Дизлайк, отписка
+    """Отписка."""
     author = get_object_or_404(User, username=username)
     Follow.objects.get(user=request.user, author=author).delete()
     return redirect('posts:profile', username=username)

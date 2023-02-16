@@ -69,7 +69,7 @@ class Comment(CreatedModel):
         User,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='Автор',    
+        verbose_name='Автор',
     )
     text = models.TextField(
         'Текст комментария',
@@ -79,6 +79,7 @@ class Comment(CreatedModel):
         'Дата',
         auto_now_add=True,
     )
+
 class Follow(CreatedModel):
     user = models.ForeignKey(
         User,
@@ -89,5 +90,5 @@ class Follow(CreatedModel):
         User,
         on_delete=models.CASCADE,
         related_name='following',
-        verbose_name='Автор',  
+        verbose_name='Автор',
     )
