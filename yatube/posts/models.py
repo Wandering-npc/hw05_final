@@ -80,6 +80,7 @@ class Comment(CreatedModel):
         auto_now_add=True,
     )
 
+
 class Follow(CreatedModel):
     user = models.ForeignKey(
         User,

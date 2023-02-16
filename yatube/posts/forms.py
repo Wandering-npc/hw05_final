@@ -22,6 +22,7 @@ class PostForm(forms.ModelForm):
             raise forms.ValidationError('Вы ничего не написали')
         return data
 
+
 class CommentForm(forms.ModelForm):
     """Форма создания комментариев"""
     class Meta:
