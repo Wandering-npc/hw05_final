@@ -49,7 +49,7 @@ def post_detail(request, post_id):
     """Отображение информации об определенном посте."""
     post = get_object_or_404(Post, pk=post_id)
     comments = post.comments.all()
-    form = CommentForm(request.POST or None,)
+    form = CommentForm()
     context = {
         'post': post,
         'form': form,
@@ -111,10 +111,8 @@ def add_comment(request, post_id):
 @login_required
 def follow_index(request):
     """Посты избранных авторов."""
-    user = request.user
-    follow_objects = user.follower.all()
-    authors = [user.author.id for user in follow_objects]
-    post_list = Post.objects.filter(author__id__in=authors)
+    post_list = Post.objects.filter(
+        author__following__user=request.user.id).all()
     page_obj = paginate(request, post_list)
     context = {
         'page_obj': page_obj,
@@ -126,11 +124,8 @@ def follow_index(request):
 def profile_follow(request, username):
     """Подписка."""
     author = get_object_or_404(User, username=username)
-    if author == request.user:
-        return redirect(
-            'posts:profile', username=username
-        )
-    if Follow.objects.filter(user=request.user, author=author).exists():
+    follow = Follow.objects.filter(user=request.user, author=author)
+    if author == request.user or follow.exists():
         return redirect(
             'posts:profile', username=username
         )
