@@ -139,5 +139,5 @@ def profile_follow(request, username):
 def profile_unfollow(request, username):
     """Отписка."""
     author = get_object_or_404(User, username=username)
-    Follow.objects.get(user=request.user, author=author).delete()
+    Follow.objects.filter(user=request.user, author=author).delete()
     return redirect('posts:profile', username=username)
